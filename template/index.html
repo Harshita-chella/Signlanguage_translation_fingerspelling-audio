@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech Converter</title>
+    <link rel="stylesheet" href="static\style.css">
+    <script src="static\script.js"></script>
+    <style>
+        /* CSS for the toggle container */
+        #toggle-container {
+            display: none;
+            margin-top: 20px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            position: relative; /* Add position relative for child positioning */
+        }
+
+        /* CSS for the toggle container content */
+        #toggle-container .interaction-container {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative; /* Add position relative for child positioning */
+        }
+
+        /* CSS for the video container */
+        #video-container {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 50%; /* Adjust width as needed */
+            height: 100%; /* Take full height */
+            background-color: #f9f9f9; /* Background color for video section */
+            transition: right 0.5s ease; /* Transition for sliding effect */
+            z-index: 999; /* Ensure video section is above other content */
+            padding: 20px;
+        }
+
+        #video-container video {
+            width: 100%; /* Ensure video takes full width */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* CSS for the close button */
+        #close-button {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        /* CSS for shifting the body section to the left */
+        body.move-left {
+            margin-left: 0; /* Adjust the left margin as needed */
+            margin-right: calc(70% - 250px); /* Shift the body section to the left */
+            transition: margin-right 0.5s ease; /* Transition for sliding effect */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="app-container">
+            <div class="headings-container">
+                <h1>
+                    Sign Language Translation into text and audio
+                </h1>
+
+                <form id="python-script-form" action="/signtotext" method="post">
+                    <button id="execute" class="btn" type="submit">Convert sign to text</button>
+                </form>
+
+               
+                <h3>Convert text to audio</h3>
+
+                <button class="btn" id="toggle-btn">Convert Text to Audio</button>
+
+
+            </div>
+
+            <div id="toggle-container">
+                <div class="interaction-container">
+                    <textarea id="textToConvert" placeholder="Enter text to convert into speech..." id="" cols="50"
+                        rows="5" class="text-control"></textarea>
+                    <p class="error-para"></p>
+                    <button class="btn" id="convertBtn">Play Converted Sound</button>
+                    <p class="error-para"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            var pythonScriptForm = document.getElementById("python-script-form");
+            var toggleBtn = document.getElementById("toggle-btn");
+            var toggleContainer = document.getElementById("toggle-container");
+
+           
+            toggleBtn.addEventListener("click", function () {
+                if (toggleContainer.style.display === "none") {
+                    toggleContainer.style.display = "block";
+                    toggleContainer.style.maxHeight = toggleContainer.scrollHeight + "px"; // Expand container height
+                } else {
+                    toggleContainer.style.maxHeight = "0"; // Collapse container height
+                    setTimeout(function () {
+                        toggleContainer.style.display = "none";
+                    }, 500); // Wait for transition to complete before hiding the container
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
